@@ -15,7 +15,6 @@ node_modules
 
 # next.js
 /.next/
-/out/
 
 # production
 /build
@@ -51,4 +50,4 @@ prompt
 
 server.log
 # Skills directory
-/skills/
+/skills/out/
