@@ -132,9 +132,38 @@ function initReveal() {
         obs.unobserve(entries[i].target);
       }
     }
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
   for (var j = 0; j < els.length; j++) {
     obs.observe(els[j]);
+  }
+}
+
+/* ── Fade-in cards when grid scrolls into view ───────────── */
+function initCardReveal() {
+  var grids = document.querySelectorAll('.artwork-grid, .camiseta-grid');
+  for (var g = 0; g < grids.length; g++) {
+    (function(grid) {
+      var cards = grid.children;
+      for (var i = 0; i < cards.length; i++) {
+        cards[i].style.opacity = '0';
+        cards[i].style.transform = 'translateY(20px)';
+        cards[i].style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      }
+      var obs = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting) {
+          for (var i = 0; i < cards.length; i++) {
+            (function(card, delay) {
+              setTimeout(function() {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+              }, delay);
+            })(cards[i], i * 50);
+          }
+          obs.unobserve(grid);
+        }
+      }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+      obs.observe(grid);
+    })(grids[g]);
   }
 }
 
@@ -187,6 +216,7 @@ function renderCatalogo() {
       grid.appendChild(card);
     }
     initReveal();
+    initCardReveal();
   }
 
   var filters = document.querySelectorAll('[data-catalogo-filter]');
@@ -250,6 +280,7 @@ function renderLoja() {
       grid.appendChild(card);
     }
     initReveal();
+    initCardReveal();
   }
 
   var filters = document.querySelectorAll('[data-loja-filter]');
@@ -395,6 +426,16 @@ function init() {
   initModal();
   setYear();
   initReveal();
+  initCardReveal();
+
+  // Safety: force all reveals visible after 2s
+  setTimeout(function() {
+    var all = document.querySelectorAll('.reveal:not(.is-visible), .reveal-left:not(.is-visible), .reveal-right:not(.is-visible), .reveal-scale:not(.is-visible), .reveal-fade:not(.is-visible)');
+    for (var i = 0; i < all.length; i++) all[i].classList.add('is-visible');
+    // Force all cards visible
+    var cards = document.querySelectorAll('.artwork-grid > *, .camiseta-grid > *');
+    for (var j = 0; j < cards.length; j++) { cards[j].style.opacity = '1'; cards[j].style.transform = 'none'; }
+  }, 2000);
 }
 
 if (document.readyState === 'loading') {

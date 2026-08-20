@@ -140,7 +140,7 @@
         <button class="filter-btn" data-catalogo-filter="sculptures">Esculturas</button>
         <button class="filter-btn" data-catalogo-filter="prints">Gravuras</button>
       </div>
-      <div class="artwork-grid reveal-stagger" id="catalogo-grid"></div>
+      <div class="artwork-grid" id="catalogo-grid"></div>
     </div>
   </section>
 
@@ -172,7 +172,7 @@
         <button class="filter-btn" data-loja-filter="mural">Murais</button>
       </div>
       <p class="loja__count" id="loja-count" style="font-family:var(--font-mono);font-size:var(--fs-mono-xs);color:var(--color-text-tertiary);letter-spacing:0.1em;margin-bottom:var(--space-xl)"></p>
-      <div class="artwork-grid reveal-stagger" id="loja-grid"></div>
+      <div class="artwork-grid" id="loja-grid"></div>
     </div>
   </section>
 
@@ -186,7 +186,7 @@
       <div class="section-label reveal">Camisetas</div>
       <h2 class="section-title reveal">Camisetas Exclusivas</h2>
       <p class="reveal" style="color:var(--color-text-secondary);margin-bottom:var(--space-3xl);max-width:500px">Arte geométrica para vestir. Cada camiseta traz obras de Tché Ruggi estampadas em algodão premium. Tamanhos: P · M · G · GG | Cores: Preto · Branco · Cinza</p>
-      <div class="camiseta-grid reveal-stagger" id="camisetas-grid"></div>
+      <div class="camiseta-grid" id="camisetas-grid"></div>
     </div>
   </section>
 
@@ -280,10 +280,19 @@
   <!-- BACK TO TOP -->
   <button class="back-to-top" id="back-to-top" aria-label="Voltar ao topo">↑</button>
 
-  <!-- SCRIPTS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="js/data.js?v=4"></script>
-  <script src="js/three-scene.js?v=4"></script>
-  <script src="js/main.js?v=4"></script>
+  <!-- SCRIPTS: data + main first (local, fast), Three.js async (CDN, non-blocking) -->
+  <script src="js/data.js?v=5"></script>
+  <script src="js/main.js?v=5"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" async></script>
+  <script>
+    (function(){
+      function tryThree(){
+        if(typeof THREE!=='undefined'&&THREE.WebGLRenderer){
+          var s=document.createElement('script');s.src='js/three-scene.js?v=5';document.body.appendChild(s);
+        }else{setTimeout(tryThree,300);}
+      }
+      if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',tryThree);else tryThree();
+    })();
+  </script>
 </body>
 </html>
