@@ -1,0 +1,2002 @@
+     1→/* ==========================================================================
+     2→   TCHÉ RUGGI — Geometric Abstract Art Portfolio
+     3→   Dark Premium Theme · Gold/Copper Accents
+     4→   ========================================================================== */
+     5→
+     6→/* ==========================================================================
+     7→   1. CSS CUSTOM PROPERTIES
+     8→   ========================================================================== */
+     9→
+    10→:root {
+    11→  /* --- Color Palette --- */
+    12→  --color-bg:                  #0a0a0a;
+    13→  --color-bg-elevated:         #111110;
+    14→  --color-bg-subtle:           #0e0d0c;
+    15→  --color-primary-gold:        #c9a96e;
+    16→  --color-primary-gold-light:  #dfc08a;
+    17→  --color-primary-gold-dark:   #a88a50;
+    18→  --color-copper:              #b87333;
+    19→  --color-copper-light:        #d4935a;
+    20→  --color-text-primary:        #f5f0e8;
+    21→  --color-text-secondary:      #8a8078;
+    22→  --color-text-tertiary:       #5a534c;
+    23→  --color-card-bg:             #141210;
+    24→  --color-card-hover-bg:       #1a1815;
+    25→  --color-border:              #2a2520;
+    26→  --color-border-light:        #3a352e;
+    27→  --color-sold:                #8b0000;
+    28→  --color-sold-dark:           #5c0000;
+    29→  --color-whatsapp:            #25D366;
+    30→  --color-whatsapp-dark:       #1ebe57;
+    31→  --color-overlay-dark:        rgba(10, 10, 10, 0.85);
+    32→  --color-overlay-medium:      rgba(10, 10, 10, 0.6);
+    33→  --color-overlay-light:       rgba(10, 10, 10, 0.4);
+    34→
+    35→  /* --- Typography --- */
+    36→  --font-display:  'Cormorant Garamond', 'Georgia', serif;
+    37→  --font-body:     'Inter', 'Helvetica Neue', Arial, sans-serif;
+    38→  --font-mono:     'Space Mono', 'Courier New', monospace;
+    39→
+    40→  /* --- Font Sizes (fluid with clamp) --- */
+    41→  --fs-hero:       clamp(4rem, 10vw, 12rem);
+    42→  --fs-h1:         clamp(2.4rem, 5vw, 4.5rem);
+    43→  --fs-h2:         clamp(1.8rem, 3.5vw, 3rem);
+    44→  --fs-h3:         clamp(1.3rem, 2.5vw, 2rem);
+    45→  --fs-h4:         clamp(1.1rem, 2vw, 1.5rem);
+    46→  --fs-body:       clamp(0.9rem, 1.1vw, 1.05rem);
+    47→  --fs-body-sm:    clamp(0.8rem, 1vw, 0.95rem);
+    48→  --fs-mono-sm:    clamp(0.65rem, 0.8vw, 0.8rem);
+    49→  --fs-mono-xs:    clamp(0.6rem, 0.7vw, 0.72rem);
+    50→  --fs-label:      clamp(0.7rem, 0.85vw, 0.85rem);
+    51→  --fs-section-num: clamp(4rem, 8vw, 9rem);
+    52→
+    53→  /* --- Spacing --- */
+    54→  --space-xs:      0.25rem;
+    55→  --space-sm:      0.5rem;
+    56→  --space-md:      1rem;
+    57→  --space-lg:      1.5rem;
+    58→  --space-xl:      2rem;
+    59→  --space-2xl:     3rem;
+    60→  --space-3xl:     4rem;
+    61→  --space-4xl:     6rem;
+    62→  --space-5xl:     8rem;
+    63→  --space-section: clamp(4rem, 10vw, 8rem);
+    64→
+    65→  /* --- Layout --- */
+    66→  --container-max: 1400px;
+    67→  --container-narrow: 1000px;
+    68→  --container-wide: 1600px;
+    69→  --nav-height: 70px;
+    70→
+    71→  /* --- Border Radius --- */
+    72→  --radius-sm: 2px;
+    73→  --radius-md: 4px;
+    74→  --radius-lg: 8px;
+    75→  --radius-xl: 12px;
+    76→
+    77→  /* --- Transitions --- */
+    78→  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    79→  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    80→  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    81→  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    82→  --transition-fast: 200ms var(--ease-out-quart);
+    83→  --transition-base: 400ms var(--ease-out-expo);
+    84→  --transition-slow: 700ms var(--ease-out-expo);
+    85→  --transition-reveal: 800ms var(--ease-out-expo);
+    86→
+    87→  /* --- Z-Index Scale --- */
+    88→  --z-base:      1;
+    89→  --z-above:     10;
+    90→  --z-nav:       100;
+    91→  --z-overlay:   200;
+    92→  --z-modal:     300;
+    93→  --z-loader:    400;
+    94→  --z-cursor:    500;
+    95→  --z-progress:  600;
+    96→}
+    97→
+    98→
+    99→/* ==========================================================================
+   100→   2. RESET & BASE
+   101→   ========================================================================== */
+   102→
+   103→*,
+   104→*::before,
+   105→*::after {
+   106→  margin: 0;
+   107→  padding: 0;
+   108→  box-sizing: border-box;
+   109→}
+   110→
+   111→html {
+   112→  font-size: 16px;
+   113→  scroll-behavior: smooth;
+   114→  -webkit-text-size-adjust: 100%;
+   115→  -webkit-font-smoothing: antialiased;
+   116→  -moz-osx-font-smoothing: grayscale;
+   117→  text-rendering: optimizeLegibility;
+   118→}
+   119→
+   120→/* Hide scrollbar during load */
+   121→html.is-loading {
+   122→  overflow: hidden;
+   123→}
+   124→
+   125→body {
+   126→  font-family: var(--font-body);
+   127→  font-size: var(--fs-body);
+   128→  line-height: 1.7;
+   129→  color: var(--color-text-primary);
+   130→  background-color: var(--color-bg);
+   131→  overflow-x: hidden;
+   132→  cursor: none;
+   133→}
+   134→
+   135→/* Restore default cursor on touch devices */
+   136→@media (hover: none) and (pointer: coarse) {
+   137→  body {
+   138→    cursor: auto;
+   139→  }
+   140→}
+   141→
+   142→::selection {
+   143→  background-color: var(--color-primary-gold);
+   144→  color: var(--color-bg);
+   145→}
+   146→
+   147→img,
+   148→picture,
+   149→video,
+   150→canvas,
+   151→svg {
+   152→  display: block;
+   153→  max-width: 100%;
+   154→}
+   155→
+   156→input,
+   157→button,
+   158→textarea,
+   159→select {
+   160→  font: inherit;
+   161→  color: inherit;
+   162→}
+   163→
+   164→a {
+   165→  color: inherit;
+   166→  text-decoration: none;
+   167→}
+   168→
+   169→ul,
+   170→ol {
+   171→  list-style: none;
+   172→}
+   173→
+   174→button {
+   175→  background: none;
+   176→  border: none;
+   177→  cursor: none;
+   178→}
+   179→
+   180→@media (hover: none) and (pointer: coarse) {
+   181→  button {
+   182→    cursor: pointer;
+   183→  }
+   184→}
+   185→
+   186→h1, h2, h3, h4, h5, h6 {
+   187→  font-family: var(--font-display);
+   188→  font-weight: 400;
+   189→  line-height: 1.15;
+   190→  letter-spacing: 0.02em;
+   191→}
+   192→
+   193→p {
+   194→  max-width: 65ch;
+   195→}
+   196→
+   197→
+   198→/* ==========================================================================
+   199→   3. UTILITY CLASSES
+   200→   ========================================================================== */
+   201→
+   202→.container {
+   203→  width: 100%;
+   204→  max-width: var(--container-max);
+   205→  margin-inline: auto;
+   206→  padding-inline: clamp(1rem, 3vw, 2.5rem);
+   207→}
+   208→
+   209→.container--narrow {
+   210→  max-width: var(--container-narrow);
+   211→}
+   212→
+   213→.container--wide {
+   214→  max-width: var(--container-wide);
+   215→}
+   216→
+   217→.sr-only {
+   218→  position: absolute;
+   219→  width: 1px;
+   220→  height: 1px;
+   221→  padding: 0;
+   222→  margin: -1px;
+   223→  overflow: hidden;
+   224→  clip: rect(0, 0, 0, 0);
+   225→  white-space: nowrap;
+   226→  border-width: 0;
+   227→}
+   228→
+   229→.text-gold {
+   230→  color: var(--color-primary-gold);
+   231→}
+   232→
+   233→.text-copper {
+   234→  color: var(--color-copper);
+   235→}
+   236→
+   237→.text-secondary {
+   238→  color: var(--color-text-secondary);
+   239→}
+   240→
+   241→.font-display {
+   242→  font-family: var(--font-display);
+   243→}
+   244→
+   245→.font-mono {
+   246→  font-family: var(--font-mono);
+   247→}
+   248→
+   249→.section-number {
+   250→  font-family: var(--font-display);
+   251→  font-size: var(--fs-section-num);
+   252→  font-weight: 300;
+   253→  color: var(--color-border);
+   254→  line-height: 1;
+   255→  user-select: none;
+   256→  pointer-events: none;
+   257→}
+   258→
+   259→.section-label {
+   260→  font-family: var(--font-mono);
+   261→  font-size: var(--fs-mono-sm);
+   262→  letter-spacing: 0.2em;
+   263→  text-transform: uppercase;
+   264→  color: var(--color-primary-gold);
+   265→  display: flex;
+   266→  align-items: center;
+   267→  gap: var(--space-md);
+   268→  margin-bottom: var(--space-xl);
+   269→}
+   270→
+   271→.section-label::before {
+   272→  content: '';
+   273→  display: inline-block;
+   274→  width: 30px;
+   275→  height: 1px;
+   276→  background: var(--color-primary-gold);
+   277→}
+   278→
+   279→.section-title {
+   280→  font-size: var(--fs-h2);
+   281→  color: var(--color-text-primary);
+   282→  margin-bottom: var(--space-2xl);
+   283→}
+   284→
+   285→
+   286→/* ==========================================================================
+   287→   4. GEOMETRIC DIVIDERS
+   288→   ========================================================================== */
+   289→
+   290→.divider {
+   291→  display: flex;
+   292→  align-items: center;
+   293→  justify-content: center;
+   294→  padding: var(--space-3xl) 0;
+   295→  position: relative;
+   296→}
+   297→
+   298→.divider--line {
+   299→  width: 100%;
+   300→  max-width: 200px;
+   301→  height: 1px;
+   302→  background: linear-gradient(
+   303→    90deg,
+   304→    transparent 0%,
+   305→    var(--color-primary-gold) 20%,
+   306→    var(--color-primary-gold) 80%,
+   307→    transparent 100%
+   308→  );
+   309→  opacity: 0.5;
+   310→}
+   311→
+   312→.divider--line::before,
+   313→.divider--line::after {
+   314→  content: '';
+   315→  position: absolute;
+   316→  width: 6px;
+   317→  height: 6px;
+   318→  border: 1px solid var(--color-primary-gold);
+   319→  transform: rotate(45deg);
+   320→  opacity: 0.6;
+   321→}
+   322→
+   323→.divider--line::before {
+   324→  left: calc(50% - 80px);
+   325→}
+   326→
+   327→.divider--line::after {
+   328→  right: calc(50% - 80px);
+   329→}
+   330→
+   331→.divider--diamond {
+   332→  width: 12px;
+   333→  height: 12px;
+   334→  border: 1px solid var(--color-primary-gold);
+   335→  transform: rotate(45deg);
+   336→  opacity: 0.5;
+   337→  flex-shrink: 0;
+   338→}
+   339→
+   340→.divider--diamond::after {
+   341→  content: '';
+   342→  position: absolute;
+   343→  top: 50%;
+   344→  left: 0;
+   345→  right: 0;
+   346→  height: 1px;
+   347→  background: linear-gradient(
+   348→    90deg,
+   349→    transparent,
+   350→    var(--color-primary-gold-dark) 30%,
+   351→    var(--color-primary-gold-dark) 70%,
+   352→    transparent
+   353→  );
+   354→  opacity: 0.3;
+   355→}
+   356→
+   357→.divider--gold-line {
+   358→  height: 1px;
+   359→  background: linear-gradient(
+   360→    90deg,
+   361→    transparent 0%,
+   362→    var(--color-border) 15%,
+   363→    var(--color-primary-gold) 50%,
+   364→    var(--color-border) 85%,
+   365→    transparent 100%
+   366→  );
+   367→  max-width: 600px;
+   368→  margin-inline: auto;
+   369→}
+   370→
+   371→
+   372→/* ==========================================================================
+   373→   5. LOADER
+   374→   ========================================================================== */
+   375→
+   376→.loader {
+   377→  position: fixed;
+   378→  inset: 0;
+   379→  z-index: var(--z-loader);
+   380→  background-color: var(--color-bg);
+   381→  display: flex;
+   382→  flex-direction: column;
+   383→  align-items: center;
+   384→  justify-content: center;
+   385→  gap: var(--space-2xl);
+   386→  transition: opacity 0.6s var(--ease-in-out),
+   387→              visibility 0.6s var(--ease-in-out);
+   388→}
+   389→
+   390→.loader.is-hidden {
+   391→  opacity: 0;
+   392→  visibility: hidden;
+   393→  pointer-events: none;
+   394→}
+   395→
+   396→.loader__shape {
+   397→  width: 50px;
+   398→  height: 50px;
+   399→  position: relative;
+   400→}
+   401→
+   402→.loader__shape svg {
+   403→  width: 100%;
+   404→  height: 100%;
+   405→  animation: loaderRotate 2.4s var(--ease-in-out) infinite;
+   406→  filter: drop-shadow(0 0 12px rgba(201, 169, 110, 0.4));
+   407→}
+   408→
+   409→.loader__shape svg polygon {
+   410→  fill: none;
+   411→  stroke: var(--color-primary-gold);
+   412→  stroke-width: 1.5;
+   413→  stroke-linejoin: miter;
+   414→}
+   415→
+   416→.loader__text {
+   417→  font-family: var(--font-mono);
+   418→  font-size: var(--fs-mono-sm);
+   419→  letter-spacing: 0.3em;
+   420→  text-transform: uppercase;
+   421→  color: var(--color-text-secondary);
+   422→  animation: loaderPulse 1.6s var(--ease-in-out) infinite;
+   423→}
+   424→
+   425→.loader__progress {
+   426→  width: 120px;
+   427→  height: 1px;
+   428→  background: var(--color-border);
+   429→  position: relative;
+   430→  overflow: hidden;
+   431→}
+   432→
+   433→.loader__progress::after {
+   434→  content: '';
+   435→  position: absolute;
+   436→  top: 0;
+   437→  left: 0;
+   438→  height: 100%;
+   439→  width: 40%;
+   440→  background: var(--color-primary-gold);
+   441→  animation: loaderProgress 1.2s var(--ease-in-out) infinite;
+   442→}
+   443→
+   444→
+   445→/* ==========================================================================
+   446→   6. CUSTOM CURSOR (Desktop Only)
+   447→   ========================================================================== */
+   448→
+   449→.cursor {
+   450→  display: none;
+   451→}
+   452→
+   453→@media (hover: hover) and (pointer: fine) {
+   454→  .cursor {
+   455→    display: block;
+   456→    position: fixed;
+   457→    top: 0;
+   458→    left: 0;
+   459→    z-index: var(--z-cursor);
+   460→    pointer-events: none;
+   461→    mix-blend-mode: difference;
+   462→  }
+   463→
+   464→  .cursor__dot {
+   465→    position: fixed;
+   466→    top: 0;
+   467→    left: 0;
+   468→    width: 6px;
+   469→    height: 6px;
+   470→    background-color: var(--color-primary-gold);
+   471→    border-radius: 50%;
+   472→    pointer-events: none;
+   473→    z-index: calc(var(--z-cursor) + 1);
+   474→    transform: translate(-50%, -50%);
+   475→    transition: width 0.2s var(--ease-out-quart),
+   476→                height 0.2s var(--ease-out-quart),
+   477→                background-color 0.2s var(--ease-out-quart);
+   478→  }
+   479→
+   480→  .cursor__ring {
+   481→    position: fixed;
+   482→    top: 0;
+   483→    left: 0;
+   484→    width: 36px;
+   485→    height: 36px;
+   486→    border: 1px solid rgba(201, 169, 110, 0.5);
+   487→    border-radius: 50%;
+   488→    pointer-events: none;
+   489→    z-index: var(--z-cursor);
+   490→    transform: translate(-50%, -50%);
+   491→    transition: width 0.4s var(--ease-out-expo),
+   492→                height 0.4s var(--ease-out-expo),
+   493→                border-color 0.3s var(--ease-out-quart),
+   494→                opacity 0.3s var(--ease-out-quart);
+   495→  }
+   496→
+   497→  /* Cursor hover states */
+   498→  .cursor.is-hovering .cursor__dot {
+   499→    width: 4px;
+   500→    height: 4px;
+   501→    background-color: var(--color-copper);
+   502→  }
+   503→
+   504→  .cursor.is-hovering .cursor__ring {
+   505→    width: 56px;
+   506→    height: 56px;
+   507→    border-color: rgba(184, 115, 51, 0.6);
+   508→  }
+   509→
+   510→  .cursor.is-clicking .cursor__dot {
+   511→    width: 3px;
+   512→    height: 3px;
+   513→  }
+   514→
+   515→  .cursor.is-clicking .cursor__ring {
+   516→    width: 28px;
+   517→    height: 28px;
+   518→    border-color: var(--color-primary-gold-light);
+   519→  }
+   520→
+   521→  /* Cursor over artwork cards */
+   522→  .cursor.is-over-artwork .cursor__ring {
+   523→    width: 80px;
+   524→    height: 80px;
+   525→    border-color: var(--color-primary-gold);
+   526→    opacity: 0.3;
+   527→  }
+   528→
+   529→  /* Hide default cursor globally on desktop */
+   530→  a, button, [role="button"], input, textarea, select,
+   531→  .artwork-card, .nav__link, .filter-btn, .camiseta-card {
+   532→    cursor: none;
+   533→  }
+   534→}
+   535→
+   536→
+   537→/* ==========================================================================
+   538→   7. SCROLL PROGRESS BAR
+   539→   ========================================================================== */
+   540→
+   541→.scroll-progress {
+   542→  position: fixed;
+   543→  top: 0;
+   544→  left: 0;
+   545→  width: 0%;
+   546→  height: 2px;
+   547→  background: linear-gradient(
+   548→    90deg,
+   549→    var(--color-copper),
+   550→    var(--color-primary-gold),
+   551→    var(--color-copper)
+   552→  );
+   553→  z-index: var(--z-progress);
+   554→  transition: none;
+   555→  will-change: width;
+   556→}
+   557→
+   558→.scroll-progress::after {
+   559→  content: '';
+   560→  position: absolute;
+   561→  right: 0;
+   562→  top: -2px;
+   563→  width: 6px;
+   564→  height: 6px;
+   565→  background: var(--color-primary-gold);
+   566→  border-radius: 50%;
+   567→  box-shadow: 0 0 10px rgba(201, 169, 110, 0.6);
+   568→}
+   569→
+   570→
+   571→/* ==========================================================================
+   572→   8. NAVIGATION
+   573→   ========================================================================== */
+   574→
+   575→.nav {
+   576→  position: fixed;
+   577→  top: 0;
+   578→  left: 0;
+   579→  right: 0;
+   580→  height: var(--nav-height);
+   581→  z-index: var(--z-nav);
+   582→  display: flex;
+   583→  align-items: center;
+   584→  transition: background-color 0.4s var(--ease-out-quart),
+   585→              box-shadow 0.4s var(--ease-out-quart),
+   586→              backdrop-filter 0.4s var(--ease-out-quart);
+   587→}
+   588→
+   589→.nav.is-scrolled {
+   590→  background-color: rgba(10, 10, 10, 0.92);
+   591→  backdrop-filter: blur(16px);
+   592→  -webkit-backdrop-filter: blur(16px);
+   593→  box-shadow: 0 1px 0 var(--color-border);
+   594→}
+   595→
+   596→.nav__inner {
+   597→  width: 100%;
+   598→  max-width: var(--container-max);
+   599→  margin-inline: auto;
+   600→  padding-inline: clamp(1rem, 3vw, 2.5rem);
+   601→  display: flex;
+   602→  align-items: center;
+   603→  justify-content: space-between;
+   604→}
+   605→
+   606→/* Logo */
+   607→.nav__logo {
+   608→  font-family: var(--font-display);
+   609→  font-size: clamp(1.1rem, 2vw, 1.5rem);
+   610→  font-weight: 400;
+   611→  letter-spacing: 0.15em;
+   612→  color: var(--color-text-primary);
+   613→  text-transform: uppercase;
+   614→  position: relative;
+   615→  z-index: calc(var(--z-nav) + 2);
+   616→}
+   617→
+   618→.nav__logo span {
+   619→  color: var(--color-primary-gold);
+   620→}
+   621→
+   622→/* Nav Links (Desktop) */
+   623→.nav__links {
+   624→  display: none;
+   625→  align-items: center;
+   626→  gap: var(--space-xl);
+   627→}
+   628→
+   629→@media (min-width: 1024px) {
+   630→  .nav__links {
+   631→    display: flex;
+   632→  }
+   633→}
+   634→
+   635→.nav__link {
+   636→  font-family: var(--font-mono);
+   637→  font-size: var(--fs-mono-sm);
+   638→  letter-spacing: 0.1em;
+   639→  text-transform: uppercase;
+   640→  color: var(--color-text-secondary);
+   641→  position: relative;
+   642→  padding: var(--space-xs) 0;
+   643→  transition: color var(--transition-fast);
+   644→}
+   645→
+   646→.nav__link::after {
+   647→  content: '';
+   648→  position: absolute;
+   649→  bottom: -2px;
+   650→  left: 0;
+   651→  width: 0;
+   652→  height: 1px;
+   653→  background: var(--color-primary-gold);
+   654→  transition: width var(--transition-base);
+   655→}
+   656→
+   657→.nav__link:hover,
+   658→.nav__link.is-active {
+   659→  color: var(--color-primary-gold);
+   660→}
+   661→
+   662→.nav__link:hover::after,
+   663→.nav__link.is-active::after {
+   664→  width: 100%;
+   665→}
+   666→
+   667→/* Hamburger Button */
+   668→.nav__hamburger {
+   669→  display: flex;
+   670→  flex-direction: column;
+   671→  justify-content: center;
+   672→  align-items: center;
+   673→  width: 36px;
+   674→  height: 36px;
+   675→  position: relative;
+   676→  z-index: calc(var(--z-nav) + 2);
+   677→  gap: 6px;
+   678→}
+   679→
+   680→@media (min-width: 1024px) {
+   681→  .nav__hamburger {
+   682→    display: none;
+   683→  }
+   684→}
+   685→
+   686→.nav__hamburger-line {
+   687→  display: block;
+   688→  width: 24px;
+   689→  height: 1px;
+   690→  background-color: var(--color-text-primary);
+   691→  transition: transform 0.4s var(--ease-out-expo),
+   692→              opacity 0.3s var(--ease-out-quart),
+   693→              background-color 0.3s var(--ease-out-quart);
+   694→  transform-origin: center;
+   695→}
+   696→
+   697→.nav__hamburger.is-active .nav__hamburger-line:nth-child(1) {
+   698→  transform: translateY(3.5px) rotate(45deg);
+   699→  background-color: var(--color-primary-gold);
+   700→}
+   701→
+   702→.nav__hamburger.is-active .nav__hamburger-line:nth-child(2) {
+   703→  opacity: 0;
+   704→  transform: scaleX(0);
+   705→}
+   706→
+   707→.nav__hamburger.is-active .nav__hamburger-line:nth-child(3) {
+   708→  transform: translateY(-3.5px) rotate(-45deg);
+   709→  background-color: var(--color-primary-gold);
+   710→}
+   711→
+   712→/* Mobile Menu Overlay */
+   713→.nav__mobile-menu {
+   714→  position: fixed;
+   715→  inset: 0;
+   716→  z-index: var(--z-nav);
+   717→  background-color: var(--color-bg);
+   718→  display: flex;
+   719→  flex-direction: column;
+   720→  align-items: center;
+   721→  justify-content: center;
+   722→  gap: var(--space-2xl);
+   723→  opacity: 0;
+   724→  visibility: hidden;
+   725→  transition: opacity 0.5s var(--ease-out-expo),
+   726→              visibility 0.5s var(--ease-out-expo);
+   727→}
+   728→
+   729→.nav__mobile-menu.is-open {
+   730→  opacity: 1;
+   731→  visibility: visible;
+   732→}
+   733→
+   734→.nav__mobile-link {
+   735→  font-family: var(--font-display);
+   736→  font-size: clamp(1.8rem, 5vw, 3rem);
+   737→  color: var(--color-text-primary);
+   738→  letter-spacing: 0.05em;
+   739→  text-transform: uppercase;
+   740→  opacity: 0;
+   741→  transform: translateY(20px);
+   742→  transition: opacity 0.5s var(--ease-out-expo),
+   743→              transform 0.5s var(--ease-out-expo),
+   744→              color var(--transition-fast);
+   745→}
+   746→
+   747→.nav__mobile-menu.is-open .nav__mobile-link {
+   748→  opacity: 1;
+   749→  transform: translateY(0);
+   750→}
+   751→
+   752→.nav__mobile-menu.is-open .nav__mobile-link:nth-child(1) { transition-delay: 0.1s; }
+   753→.nav__mobile-menu.is-open .nav__mobile-link:nth-child(2) { transition-delay: 0.15s; }
+   754→.nav__mobile-menu.is-open .nav__mobile-link:nth-child(3) { transition-delay: 0.2s; }
+   755→.nav__mobile-menu.is-open .nav__mobile-link:nth-child(4) { transition-delay: 0.25s; }
+   756→.nav__mobile-menu.is-open .nav__mobile-link:nth-child(5) { transition-delay: 0.3s; }
+   757→.nav__mobile-menu.is-open .nav__mobile-link:nth-child(6) { transition-delay: 0.35s; }
+   758→.nav__mobile-menu.is-open .nav__mobile-link:nth-child(7) { transition-delay: 0.4s; }
+   759→.nav__mobile-menu.is-open .nav__mobile-link:nth-child(8) { transition-delay: 0.45s; }
+   760→
+   761→.nav__mobile-link:hover {
+   762→  color: var(--color-primary-gold);
+   763→}
+   764→
+   765→/* Mobile menu decorative elements */
+   766→.nav__mobile-deco {
+   767→  position: absolute;
+   768→  bottom: 10%;
+   769→  font-family: var(--font-mono);
+   770→  font-size: var(--fs-mono-xs);
+   771→  letter-spacing: 0.3em;
+   772→  color: var(--color-text-tertiary);
+   773→  text-transform: uppercase;
+   774→  opacity: 0;
+   775→  transition: opacity 0.6s var(--ease-out-expo) 0.5s;
+   776→}
+   777→
+   778→.nav__mobile-menu.is-open .nav__mobile-deco {
+   779→  opacity: 1;
+   780→}
+   781→
+   782→
+   783→/* ==========================================================================
+   784→   9. HERO SECTION
+   785→   ========================================================================== */
+   786→
+   787→.hero {
+   788→  position: relative;
+   789→  min-height: 100vh;
+   790→  min-height: 100dvh;
+   791→  display: flex;
+   792→  flex-direction: column;
+   793→  align-items: center;
+   794→  justify-content: center;
+   795→  overflow: hidden;
+   796→  padding: var(--nav-height) 0 0;
+   797→}
+   798→
+   799→.hero__canvas-bg {
+   800→  position: absolute;
+   801→  inset: 0;
+   802→  z-index: 0;
+   803→}
+   804→
+   805→.hero__canvas-bg canvas {
+   806→  width: 100%;
+   807→  height: 100%;
+   808→}
+   809→
+   810→/* Dark gradient overlay on top of canvas */
+   811→.hero__overlay {
+   812→  position: absolute;
+   813→  inset: 0;
+   814→  z-index: 1;
+   815→  background:
+   816→    radial-gradient(ellipse at 50% 50%, transparent 30%, var(--color-bg) 75%),
+   817→    linear-gradient(to bottom, rgba(10, 10, 10, 0.3) 0%, rgba(10, 10, 10, 0.6) 100%);
+   818→  pointer-events: none;
+   819→}
+   820→
+   821→.hero__content {
+   822→  position: relative;
+   823→  z-index: 2;
+   824→  text-align: center;
+   825→  display: flex;
+   826→  flex-direction: column;
+   827→  align-items: center;
+   828→  gap: var(--space-xl);
+   829→  padding-inline: var(--space-md);
+   830→}
+   831→
+   832→/* Artist Name - HUGE with gold shimmer */
+   833→.hero__name {
+   834→  font-family: var(--font-display);
+   835→  font-size: var(--fs-hero);
+   836→  font-weight: 300;
+   837→  letter-spacing: 0.06em;
+   838→  text-transform: uppercase;
+   839→  line-height: 0.95;
+   840→  color: var(--color-text-primary);
+   841→  background: linear-gradient(
+   842→    105deg,
+   843→    var(--color-text-primary) 0%,
+   844→    var(--color-text-primary) 35%,
+   845→    var(--color-primary-gold) 45%,
+   846→    var(--color-primary-gold-light) 50%,
+   847→    var(--color-primary-gold) 55%,
+   848→    var(--color-text-primary) 65%,
+   849→    var(--color-text-primary) 100%
+   850→  );
+   851→  background-size: 250% 100%;
+   852→  -webkit-background-clip: text;
+   853→  background-clip: text;
+   854→  -webkit-text-fill-color: transparent;
+   855→  animation: heroShimmer 6s var(--ease-in-out) infinite;
+   856→  animation-delay: 1s;
+   857→  position: relative;
+   858→}
+   859→
+   860→/* Subtle gold line under the name */
+   861→.hero__name::after {
+   862→  content: '';
+   863→  position: absolute;
+   864→  bottom: -10px;
+   865→  left: 50%;
+   866→  transform: translateX(-50%);
+   867→  width: 60px;
+   868→  height: 1px;
+   869→  background: var(--color-primary-gold);
+   870→  opacity: 0.5;
+   871→}
+   872→
+   873→/* Subtitle */
+   874→.hero__subtitle {
+   875→  font-family: var(--font-mono);
+   876→  font-size: clamp(0.6rem, 1.1vw, 0.85rem);
+   877→  letter-spacing: 0.35em;
+   878→  text-transform: uppercase;
+   879→  color: var(--color-text-secondary);
+   880→  max-width: 600px;
+   881→  line-height: 1.8;
+   882→}
+   883→
+   884→.hero__subtitle strong {
+   885→  color: var(--color-primary-gold);
+   886→  font-weight: 400;
+   887→}
+   888→
+   889→/* Scroll Indicator */
+   890→.hero__scroll-indicator {
+   891→  position: absolute;
+   892→  bottom: clamp(2rem, 5vh, 4rem);
+   893→  left: 50%;
+   894→  transform: translateX(-50%);
+   895→  z-index: 2;
+   896→  display: flex;
+   897→  flex-direction: column;
+   898→  align-items: center;
+   899→  gap: var(--space-md);
+   900→}
+   901→
+   902→.hero__scroll-text {
+   903→  font-family: var(--font-mono);
+   904→  font-size: var(--fs-mono-xs);
+   905→  letter-spacing: 0.3em;
+   906→  text-transform: uppercase;
+   907→  color: var(--color-text-tertiary);
+   908→}
+   909→
+   910→.hero__scroll-line {
+   911→  width: 1px;
+   912→  height: 50px;
+   913→  position: relative;
+   914→  overflow: hidden;
+   915→  background: var(--color-border);
+   916→}
+   917→
+   918→.hero__scroll-line::after {
+   919→  content: '';
+   920→  position: absolute;
+   921→  top: -100%;
+   922→  left: 0;
+   923→  width: 100%;
+   924→  height: 40%;
+   925→  background: linear-gradient(to bottom, transparent, var(--color-primary-gold));
+   926→  animation: scrollLineMove 2s var(--ease-in-out) infinite;
+   927→}
+   928→
+   929→/* Hero geometric decorative elements */
+   930→.hero__geo-deco {
+   931→  position: absolute;
+   932→  z-index: 1;
+   933→  pointer-events: none;
+   934→  opacity: 0.15;
+   935→}
+   936→
+   937→.hero__geo-deco--tl {
+   938→  top: 15%;
+   939→  left: 8%;
+   940→  width: 80px;
+   941→  height: 80px;
+   942→  border: 1px solid var(--color-primary-gold);
+   943→  transform: rotate(45deg);
+   944→  animation: geoFloat 8s var(--ease-in-out) infinite;
+   945→}
+   946→
+   947→.hero__geo-deco--br {
+   948→  bottom: 20%;
+   949→  right: 8%;
+   950→  width: 60px;
+   951→  height: 60px;
+   952→  border: 1px solid var(--color-copper);
+   953→  transform: rotate(45deg);
+   954→  animation: geoFloat 8s var(--ease-in-out) infinite reverse;
+   955→}
+   956→
+   957→
+   958→/* ==========================================================================
+   959→   10. BIO SECTION
+   960→   ========================================================================== */
+   961→
+   962→.bio {
+   963→  padding: var(--space-section) 0;
+   964→  position: relative;
+   965→}
+   966→
+   967→.bio__grid {
+   968→  display: grid;
+   969→  grid-template-columns: 1fr;
+   970→  gap: var(--space-3xl);
+   971→  align-items: start;
+   972→}
+   973→
+   974→@media (min-width: 768px) {
+   975→  .bio__grid {
+   976→    grid-template-columns: 1fr 1fr;
+   977→    gap: var(--space-4xl);
+   978→  }
+   979→}
+   980→
+   981→.bio__text-content {
+   982→  display: flex;
+   983→  flex-direction: column;
+   984→  gap: var(--space-xl);
+   985→}
+   986→
+   987→.bio__text-content p {
+   988→  color: var(--color-text-secondary);
+   989→  line-height: 1.8;
+   990→}
+   991→
+   992→.bio__text-content p:first-of-type::first-letter {
+   993→  font-family: var(--font-display);
+   994→  font-size: 3.5em;
+   995→  float: left;
+   996→  line-height: 0.8;
+   997→  margin-right: 0.08em;
+   998→  color: var(--color-primary-gold);
+   999→}
+  1000→
+  1001→/* Photo container with decorative gold corner frames */
+  1002→.bio__photo-wrapper {
+  1003→  position: relative;
+  1004→  aspect-ratio: 3 / 4;
+  1005→  max-width: 450px;
+  1006→  margin-inline: auto;
+  1007→}
+  1008→
+  1009→.bio__photo-wrapper img {
+  1010→  width: 100%;
+  1011→  height: 100%;
+  1012→  object-fit: cover;
+  1013→  filter: grayscale(30%) contrast(1.05);
+  1014→  transition: filter var(--transition-slow);
+  1015→}
+  1016→
+  1017→.bio__photo-wrapper:hover img {
+  1018→  filter: grayscale(0%) contrast(1);
+  1019→}
+  1020→
+  1021→/* Gold corner frames */
+  1022→.bio__photo-frame {
+  1023→  position: absolute;
+  1024→  width: 30px;
+  1025→  height: 30px;
+  1026→  border-color: var(--color-primary-gold);
+  1027→  border-style: solid;
+  1028→  border-width: 0;
+  1029→  opacity: 0.7;
+  1030→  transition: opacity var(--transition-base);
+  1031→}
+  1032→
+  1033→.bio__photo-wrapper:hover .bio__photo-frame {
+  1034→  opacity: 1;
+  1035→}
+  1036→
+  1037→.bio__photo-frame--tl {
+  1038→  top: -10px;
+  1039→  left: -10px;
+  1040→  border-top-width: 1px;
+  1041→  border-left-width: 1px;
+  1042→}
+  1043→
+  1044→.bio__photo-frame--tr {
+  1045→  top: -10px;
+  1046→  right: -10px;
+  1047→  border-top-width: 1px;
+  1048→  border-right-width: 1px;
+  1049→}
+  1050→
+  1051→.bio__photo-frame--bl {
+  1052→  bottom: -10px;
+  1053→  left: -10px;
+  1054→  border-bottom-width: 1px;
+  1055→  border-left-width: 1px;
+  1056→}
+  1057→
+  1058→.bio__photo-frame--br {
+  1059→  bottom: -10px;
+  1060→  right: -10px;
+  1061→  border-bottom-width: 1px;
+  1062→  border-right-width: 1px;
+  1063→}
+  1064→
+  1065→/* Section number watermark */
+  1066→.bio__section-num {
+  1067→  position: absolute;
+  1068→  top: 50%;
+  1069→  left: 50%;
+  1070→  transform: translate(-50%, -50%);
+  1071→  pointer-events: none;
+  1072→  user-select: none;
+  1073→}
+  1074→
+  1075→
+  1076→/* ==========================================================================
+  1077→   11. CATALOGO SECTION
+  1078→   ========================================================================== */
+  1079→
+  1080→.catalogo {
+  1081→  padding: var(--space-section) 0;
+  1082→  position: relative;
+  1083→}
+  1084→
+  1085→/* Filter Tabs */
+  1086→.filter-tabs {
+  1087→  display: flex;
+  1088→  flex-wrap: wrap;
+  1089→  gap: var(--space-sm);
+  1090→  margin-bottom: var(--space-3xl);
+  1091→  padding-bottom: var(--space-xl);
+  1092→  border-bottom: 1px solid var(--color-border);
+  1093→}
+  1094→
+  1095→.filter-btn {
+  1096→  font-family: var(--font-mono);
+  1097→  font-size: var(--fs-mono-xs);
+  1098→  letter-spacing: 0.12em;
+  1099→  text-transform: uppercase;
+  1100→  color: var(--color-text-secondary);
+  1101→  padding: var(--space-sm) var(--space-lg);
+  1102→  border: 1px solid transparent;
+  1103→  border-radius: var(--radius-sm);
+  1104→  background: transparent;
+  1105→  transition: color var(--transition-fast),
+  1106→              border-color var(--transition-fast),
+  1107→              background-color var(--transition-fast);
+  1108→  white-space: nowrap;
+  1109→}
+  1110→
+  1111→.filter-btn:hover {
+  1112→  color: var(--color-primary-gold);
+  1113→  border-color: var(--color-border);
+  1114→}
+  1115→
+  1116→.filter-btn.is-active {
+  1117→  color: var(--color-bg);
+  1118→  background-color: var(--color-primary-gold);
+  1119→  border-color: var(--color-primary-gold);
+  1120→}
+  1121→
+  1122→/* Artwork Grid - Masonry-like using CSS Grid with auto-rows */
+  1123→.artwork-grid {
+  1124→  display: grid;
+  1125→  grid-template-columns: 1fr;
+  1126→  gap: var(--space-lg);
+  1127→}
+  1128→
+  1129→@media (min-width: 580px) {
+  1130→  .artwork-grid {
+  1131→    grid-template-columns: repeat(2, 1fr);
+  1132→  }
+  1133→}
+  1134→
+  1135→@media (min-width: 1024px) {
+  1136→  .artwork-grid {
+  1137→    grid-template-columns: repeat(3, 1fr);
+  1138→  }
+  1139→}
+  1140→
+  1141→@media (min-width: 1400px) {
+  1142→  .artwork-grid {
+  1143→    grid-template-columns: repeat(4, 1fr);
+  1144→  }
+  1145→}
+  1146→
+  1147→/* --- Artwork Card --- */
+  1148→.artwork-card {
+  1149→  position: relative;
+  1150→  border-radius: var(--radius-md);
+  1151→  overflow: hidden;
+  1152→  background-color: var(--color-card-bg);
+  1153→  border: 1px solid transparent;
+  1154→  transition: border-color var(--transition-base),
+  1155→              transform var(--transition-base),
+  1156→              box-shadow var(--transition-base);
+  1157→}
+  1158→
+  1159→.artwork-card:hover {
+  1160→  border-color: var(--color-primary-gold-dark);
+  1161→  transform: translateY(-4px);
+  1162→  box-shadow:
+  1163→    0 12px 40px rgba(0, 0, 0, 0.4),
+  1164→    0 0 0 1px var(--color-primary-gold-dark),
+  1165→    inset 0 1px 0 rgba(201, 169, 110, 0.08);
+  1166→}
+  1167→
+  1168→/* Card Image Container */
+  1169→.artwork-card__image-wrap {
+  1170→  position: relative;
+  1171→  aspect-ratio: 1 / 1;
+  1172→  overflow: hidden;
+  1173→}
+  1174→
+  1175→.artwork-card__image-wrap img {
+  1176→  width: 100%;
+  1177→  height: 100%;
+  1178→  object-fit: cover;
+  1179→  transition: transform 0.7s var(--ease-out-expo),
+  1180→              filter 0.5s var(--ease-out-quart);
+  1181→}
+  1182→
+  1183→.artwork-card:hover .artwork-card__image-wrap img {
+  1184→  transform: scale(1.06);
+  1185→}
+  1186→
+  1187→/* Image Overlay Gradient */
+  1188→.artwork-card__image-overlay {
+  1189→  position: absolute;
+  1190→  inset: 0;
+  1191→  background: linear-gradient(
+  1192→    to top,
+  1193→    rgba(10, 10, 10, 0.9) 0%,
+  1194→    rgba(10, 10, 10, 0.4) 40%,
+  1195→    transparent 70%
+  1196→  );
+  1197→  pointer-events: none;
+  1198→}
+  1199→
+  1200→/* Card Info (bottom overlay) */
+  1201→.artwork-card__info {
+  1202→  position: absolute;
+  1203→  bottom: 0;
+  1204→  left: 0;
+  1205→  right: 0;
+  1206→  padding: var(--space-xl) var(--space-lg) var(--space-lg);
+  1207→  z-index: 2;
+  1208→}
+  1209→
+  1210→.artwork-card__title {
+  1211→  font-family: var(--font-display);
+  1212→  font-size: var(--fs-h4);
+  1213→  color: var(--color-text-primary);
+  1214→  margin-bottom: var(--space-xs);
+  1215→  line-height: 1.3;
+  1216→}
+  1217→
+  1218→.artwork-card__year {
+  1219→  font-family: var(--font-mono);
+  1220→  font-size: var(--fs-mono-xs);
+  1221→  color: var(--color-text-secondary);
+  1222→  letter-spacing: 0.1em;
+  1223→}
+  1224→
+  1225→/* Hover Details (technique, dimensions) */
+  1226→.artwork-card__details {
+  1227→  font-family: var(--font-mono);
+  1228→  font-size: var(--fs-mono-xs);
+  1229→  color: var(--color-text-tertiary);
+  1230→  margin-top: var(--space-sm);
+  1231→  line-height: 1.6;
+  1232→  max-height: 0;
+  1233→  overflow: hidden;
+  1234→  opacity: 0;
+  1235→  transition: max-height 0.4s var(--ease-out-expo),
+  1236→              opacity 0.3s var(--ease-out-quart),
+  1237→              margin-top 0.3s var(--ease-out-quart);
+  1238→}
+  1239→
+  1240→.artwork-card:hover .artwork-card__details {
+  1241→  max-height: 60px;
+  1242→  opacity: 1;
+  1243→  margin-top: var(--space-sm);
+  1244→}
+  1245→
+  1246→/* Price Badge */
+  1247→.artwork-card__badge {
+  1248→  position: absolute;
+  1249→  top: var(--space-md);
+  1250→  right: var(--space-md);
+  1251→  z-index: 3;
+  1252→  font-family: var(--font-mono);
+  1253→  font-size: var(--fs-mono-xs);
+  1254→  letter-spacing: 0.05em;
+  1255→  padding: var(--space-xs) var(--space-md);
+  1256→  border-radius: var(--radius-sm);
+  1257→  line-height: 1.6;
+  1258→}
+  1259→
+  1260→.artwork-card__badge--available {
+  1261→  background-color: var(--color-primary-gold);
+  1262→  color: var(--color-bg);
+  1263→}
+  1264→
+  1265→.artwork-card__badge--sold {
+  1266→  background-color: var(--color-sold);
+  1267→  color: #fff;
+  1268→}
+  1269→
+  1270→/* Series tag */
+  1271→.artwork-card__series {
+  1272→  position: absolute;
+  1273→  top: var(--space-md);
+  1274→  left: var(--space-md);
+  1275→  z-index: 3;
+  1276→  font-family: var(--font-mono);
+  1277→  font-size: var(--fs-mono-xs);
+  1278→  letter-spacing: 0.15em;
+  1279→  text-transform: uppercase;
+  1280→  color: var(--color-primary-gold);
+  1281→  background: rgba(10, 10, 10, 0.7);
+  1282→  padding: 2px 8px;
+  1283→  border: 1px solid rgba(201, 169, 110, 0.3);
+  1284→  border-radius: var(--radius-sm);
+  1285→  backdrop-filter: blur(4px);
+  1286→  -webkit-backdrop-filter: blur(4px);
+  1287→}
+  1288→
+  1289→/* WhatsApp buy button (shown on hover for shop cards) */
+  1290→.artwork-card__whatsapp {
+  1291→  position: absolute;
+  1292→  bottom: var(--space-lg);
+  1293→  right: var(--space-lg);
+  1294→  z-index: 4;
+  1295→  display: flex;
+  1296→  align-items: center;
+  1297→  gap: var(--space-sm);
+  1298→  font-family: var(--font-mono);
+  1299→  font-size: var(--fs-mono-xs);
+  1300→  letter-spacing: 0.08em;
+  1301→  text-transform: uppercase;
+  1302→  color: #fff;
+  1303→  background-color: var(--color-whatsapp);
+  1304→  padding: var(--space-sm) var(--space-lg);
+  1305→  border-radius: var(--radius-md);
+  1306→  opacity: 0;
+  1307→  transform: translateY(8px);
+  1308→  transition: opacity 0.3s var(--ease-out-quart),
+  1309→              transform 0.4s var(--ease-out-expo),
+  1310→              background-color var(--transition-fast);
+  1311→ box-shadow: 0 4px 16px rgba(37, 211, 102, 0.3);
+  1312→}
+  1313→
+  1314→.artwork-card:hover .artwork-card__whatsapp {
+  1315→  opacity: 1;
+  1316→  transform: translateY(0);
+  1317→}
+  1318→
+  1319→.artwork-card__whatsapp:hover {
+  1320→  background-color: var(--color-whatsapp-dark);
+  1321→}
+  1322→
+  1323→.artwork-card__whatsapp svg {
+  1324→  width: 14px;
+  1325→  height: 14px;
+  1326→  flex-shrink: 0;
+  1327→}
+  1328→
+  1329→/* No results message */
+  1330→.artwork-grid__empty {
+  1331→  grid-column: 1 / -1;
+  1332→  text-align: center;
+  1333→  padding: var(--space-4xl) 0;
+  1334→  color: var(--color-text-tertiary);
+  1335→  font-family: var(--font-mono);
+  1336→  font-size: var(--fs-mono-sm);
+  1337→  letter-spacing: 0.1em;
+  1338→}
+  1339→
+  1340→
+  1341→/* ==========================================================================
+  1342→   12. LOJA (SHOP) SECTION
+  1343→   ========================================================================== */
+  1344→
+  1345→.loja {
+  1346→  padding: var(--space-section) 0;
+  1347→  position: relative;
+  1348→}
+  1349→
+  1350→/* Price tag styling for loja */
+  1351→.artwork-card__price {
+  1352→  font-family: var(--font-display);
+  1353→  font-size: var(--fs-h4);
+  1354→  color: var(--color-primary-gold);
+  1355→  margin-top: var(--space-xs);
+  1356→}
+  1357→
+  1358→/* Loja-specific card adjustments */
+  1359→.loja .artwork-card__info {
+  1360→ padding-bottom: var(--space-2xl);
+  1361→}
+  1362→
+  1363→/* Always show WhatsApp button on mobile for loja */
+  1364→@media (max-width: 1023px) {
+  1365→  .loja .artwork-card__whatsapp {
+  1366→    opacity: 1;
+  1367→    transform: translateY(0);
+  1368→    position: relative;
+  1369→    bottom: auto;
+  1370→    right: auto;
+  1371→    margin-top: var(--space-md);
+  1372→    justify-content: center;
+  1373→    width: 100%;
+  1374→  }
+  1375→
+  1376→  .loja .artwork-card__info {
+  1377→    padding-bottom: var(--space-md);
+  1378→  }
+  1379→}
+  1380→
+  1381→
+  1382→/* ==========================================================================
+  1383→   13. CAMISETAS (T-SHIRTS) SECTION
+  1384→   ========================================================================== */
+  1385→
+  1386→.camisetas {
+  1387→  padding: var(--space-section) 0;
+  1388→  position: relative;
+  1389→}
+  1390→
+  1391→.camiseta-grid {
+  1392→  display: grid;
+  1393→  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  1394→  gap: var(--space-xl);
+  1395→}
+  1396→
+  1397→.camiseta-card {
+  1398→  position: relative;
+  1399→  border-radius: var(--radius-md);
+  1400→  overflow: hidden;
+  1401→  background-color: var(--color-card-bg);
+  1402→  border: 1px solid transparent;
+  1403→  transition: border-color var(--transition-base),
+  1404→              transform var(--transition-base),
+  1405→              box-shadow var(--transition-base);
+  1406→  display: flex;
+  1407→  flex-direction: column;
+  1408→}
+  1409→
+  1410→.camiseta-card:hover {
+  1411→  border-color: var(--color-primary-gold-dark);
+  1412→  transform: translateY(-4px);
+  1413→  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  1414→}
+  1415→
+  1416→.camiseta-card__image-wrap {
+  1417→  position: relative;
+  1418→  aspect-ratio: 1 / 1;
+  1419→  overflow: hidden;
+  1420→  background: var(--color-bg-subtle);
+  1421→}
+  1422→
+  1423→.camiseta-card__image-wrap img {
+  1424→  width: 100%;
+  1425→  height: 100%;
+  1426→  object-fit: cover;
+  1427→  transition: transform 0.7s var(--ease-out-expo);
+  1428→}
+  1429→
+  1430→.camiseta-card:hover .camiseta-card__image-wrap img {
+  1431→  transform: scale(1.05);
+  1432→}
+  1433→
+  1434→.camiseta-card__info {
+  1435→  padding: var(--space-lg);
+  1436→  display: flex;
+  1437→  flex-direction: column;
+  1438→  gap: var(--space-sm);
+  1439→  flex: 1;
+  1440→}
+  1441→
+  1442→.camiseta-card__name {
+  1443→  font-family: var(--font-display);
+  1444→  font-size: var(--fs-h4);
+  1445→  color: var(--color-text-primary);
+  1446→}
+  1447→
+  1448→.camiseta-card__artwork-name {
+  1449→  font-family: var(--font-mono);
+  1450→  font-size: var(--fs-mono-xs);
+  1451→  color: var(--color-text-secondary);
+  1452→  letter-spacing: 0.05em;
+  1453→}
+  1454→
+  1455→.camiseta-card__price-row {
+  1456→  display: flex;
+  1457→  align-items: center;
+  1458→  justify-content: space-between;
+  1459→  margin-top: auto;
+  1460→  padding-top: var(--space-md);
+  1461→}
+  1462→
+  1463→.camiseta-card__price {
+  1464→  font-family: var(--font-display);
+  1465→  font-size: var(--fs-h3);
+  1466→  color: var(--color-primary-gold);
+  1467→}
+  1468→
+  1469→.camiseta-card__sizes {
+  1470→  font-family: var(--font-mono);
+  1471→  font-size: var(--fs-mono-xs);
+  1472→  color: var(--color-text-tertiary);
+  1473→  letter-spacing: 0.1em;
+  1474→}
+  1475→
+  1476→.camiseta-card__buy-btn {
+  1477→  display: flex;
+  1478→  align-items: center;
+  1479→  justify-content: center;
+  1480→  gap: var(--space-sm);
+  1481→  font-family: var(--font-mono);
+  1482→  font-size: var(--fs-mono-sm);
+  1483→  letter-spacing: 0.1em;
+  1484→  text-transform: uppercase;
+  1485→  color: #fff;
+  1486→  background-color: var(--color-whatsapp);
+  1487→  padding: var(--space-md) var(--space-xl);
+  1488→  border-radius: var(--radius-md);
+  1489→  transition: background-color var(--transition-fast),
+  1490→              transform var(--transition-fast);
+  1491→  width: 100%;
+  1492→  margin-top: var(--space-md);
+  1493→  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.2);
+  1494→}
+  1495→
+  1496→.camiseta-card__buy-btn:hover {
+  1497→  background-color: var(--color-whatsapp-dark);
+  1498→  transform: translateY(-2px);
+  1499→  box-shadow: 0 6px 24px rgba(37, 211, 102, 0.35);
+  1500→}
+  1501→
+  1502→.camiseta-card__buy-btn svg {
+  1503→  width: 16px;
+  1504→  height: 16px;
+  1505→  flex-shrink: 0;
+  1506→}
+  1507→
+  1508→
+  1509→/* ==========================================================================
+  1510→   14. EXPOSIÇÕES (EXHIBITIONS) SECTION
+  1511→   ========================================================================== */
+  1512→
+  1513→.exposicoes {
+  1514→  padding: var(--space-section) 0;
+  1515→  position: relative;
+  1516→}
+  1517→
+  1518→.expo-timeline {
+  1519→  position: relative;
+  1520→  padding-left: clamp(2rem, 5vw, 4rem);
+  1521→}
+  1522→
+  1523→/* Vertical timeline line */
+  1524→.expo-timeline::before {
+  1525→  content: '';
+  1526→  position: absolute;
+  1527→  top: 0;
+  1528→  left: 0;
+  1529→  width: 1px;
+  1530→  height: 100%;
+  1531→  background: linear-gradient(
+  1532→    to bottom,
+  1533→    transparent,
+  1534→    var(--color-border) 5%,
+  1535→    var(--color-primary-gold-dark) 50%,
+  1536→    var(--color-border) 95%,
+  1537→    transparent
+  1538→  );
+  1539→}
+  1540→
+  1541→.expo-item {
+  1542→  position: relative;
+  1543→  padding-bottom: var(--space-3xl);
+  1544→  display: grid;
+  1545→  grid-template-columns: 80px 1fr;
+  1546→  gap: var(--space-lg);
+  1547→  align-items: start;
+  1548→}
+  1549→
+  1550→.expo-item:last-child {
+  1551→  padding-bottom: 0;
+  1552→}
+  1553→
+  1554→/* Timeline year marker dot */
+  1555→.expo-item__dot {
+  1556→  position: absolute;
+  1557→  left: calc(-1 * clamp(2rem, 5vw, 4rem) - 4px);
+  1558→  top: 6px;
+  1559→  width: 9px;
+  1560→  height: 9px;
+  1561→  border: 1.5px solid var(--color-primary-gold);
+  1562→  transform: rotate(45deg);
+  1563→  background-color: var(--color-bg);
+  1564→  transition: background-color var(--transition-fast),
+  1565→              box-shadow var(--transition-fast);
+  1566→}
+  1567→
+  1568→.expo-item:hover .expo-item__dot {
+  1569→  background-color: var(--color-primary-gold);
+  1570→  box-shadow: 0 0 12px rgba(201, 169, 110, 0.4);
+  1571→}
+  1572→
+  1573→.expo-item__year {
+  1574→  font-family: var(--font-display);
+  1575→  font-size: var(--fs-h3);
+  1576→  color: var(--color-primary-gold);
+  1577→  line-height: 1;
+  1578→}
+  1579→
+  1580→.expo-item__content {
+  1581→  display: flex;
+  1582→  flex-direction: column;
+  1583→  gap: var(--space-sm);
+  1584→}
+  1585→
+  1586→.expo-item__title {
+  1587→  font-family: var(--font-display);
+  1588→  font-size: var(--fs-h4);
+  1589→  color: var(--color-text-primary);
+  1590→  line-height: 1.3;
+  1591→}
+  1592→
+  1593→.expo-item__venue {
+  1594→  font-family: var(--font-mono);
+  1595→  font-size: var(--fs-mono-xs);
+  1596→  color: var(--color-text-secondary);
+  1597→  letter-spacing: 0.08em;
+  1598→}
+  1599→
+  1600→.expo-item__description {
+  1601→  font-size: var(--fs-body-sm);
+  1602→  color: var(--color-text-tertiary);
+  1603→  line-height: 1.6;
+  1604→  margin-top: var(--space-xs);
+  1605→}
+  1606→
+  1607→/* Horizontal line connector from dot */
+  1608→.expo-item__connector {
+  1609→  position: absolute;
+  1610→  left: calc(-1 * clamp(2rem, 5vw, 4rem) + 8px);
+  1611→  top: 10px;
+  1612→  width: calc(clamp(2rem, 5vw, 4rem) - 16px);
+  1613→  height: 1px;
+  1614→  background: var(--color-border);
+  1615→}
+  1616→
+  1617→
+  1618→/* ==========================================================================
+  1619→   15. CONTACT SECTION
+  1620→   ========================================================================== */
+  1621→
+  1622→.contact {
+  1623→  padding: var(--space-section) 0;
+  1624→  position: relative;
+  1625→}
+  1626→
+  1627→.contact__cta {
+  1628→  text-align: center;
+  1629→  margin-bottom: var(--space-4xl);
+  1630→}
+  1631→
+  1632→.contact__cta-title {
+  1633→  font-family: var(--font-display);
+  1634→  font-size: var(--fs-h2);
+  1635→  color: var(--color-text-primary);
+  1636→  margin-bottom: var(--space-lg);
+  1637→}
+  1638→
+  1639→.contact__cta-subtitle {
+  1640→  font-size: var(--fs-body);
+  1641→  color: var(--color-text-secondary);
+  1642→  max-width: 500px;
+  1643→  margin-inline: auto;
+  1644→  margin-bottom: var(--space-2xl);
+  1645→  line-height: 1.7;
+  1646→}
+  1647→
+  1648→/* WhatsApp CTA Button */
+  1649→.contact__whatsapp-btn {
+  1650→  display: inline-flex;
+  1651→  align-items: center;
+  1652→  gap: var(--space-md);
+  1653→  font-family: var(--font-mono);
+  1654→  font-size: var(--fs-mono-sm);
+  1655→  font-weight: 500;
+  1656→  letter-spacing: 0.1em;
+  1657→  text-transform: uppercase;
+  1658→  color: #fff;
+  1659→  background-color: var(--color-whatsapp);
+  1660→  padding: var(--space-lg) var(--space-2xl);
+  1661→  border-radius: var(--radius-md);
+  1662→  transition: background-color var(--transition-fast),
+  1663→              transform var(--transition-fast),
+  1664→              box-shadow var(--transition-fast);
+  1665→  box-shadow: 0 4px 24px rgba(37, 211, 102, 0.25);
+  1666→}
+  1667→
+  1668→.contact__whatsapp-btn:hover {
+  1669→  background-color: var(--color-whatsapp-dark);
+  1670→  transform: translateY(-2px);
+  1671→  box-shadow: 0 8px 32px rgba(37, 211, 102, 0.4);
+  1672→}
+  1673→
+  1674→.contact__whatsapp-btn svg {
+  1675→  width: 20px;
+  1676→  height: 20px;
+  1677→  flex-shrink: 0;
+  1678→}
+  1679→
+  1680→/* Contact Info Grid */
+  1681→.contact__info-grid {
+  1682→  display: grid;
+  1683→  grid-template-columns: 1fr;
+  1684→  gap: var(--space-2xl);
+  1685→}
+  1686→
+  1687→@media (min-width: 768px) {
+  1688→  .contact__info-grid {
+  1689→    grid-template-columns: repeat(2, 1fr);
+  1690→  }
+  1691→}
+  1692→
+  1693→@media (min-width: 1024px) {
+  1694→  .contact__info-grid {
+  1695→    grid-template-columns: repeat(3, 1fr);
+  1696→  }
+  1697→}
+  1698→
+  1699→.contact__info-card {
+  1700→  padding: var(--space-2xl);
+  1701→  border: 1px solid var(--color-border);
+  1702→  border-radius: var(--radius-md);
+  1703→  background-color: var(--color-card-bg);
+  1704→  transition: border-color var(--transition-base),
+  1705→              background-color var(--transition-base);
+  1706→}
+  1707→
+  1708→.contact__info-card:hover {
+  1709→  border-color: var(--color-border-light);
+  1710→  background-color: var(--color-card-hover-bg);
+  1711→}
+  1712→
+  1713→.contact__info-label {
+  1714→  font-family: var(--font-mono);
+  1715→  font-size: var(--fs-mono-xs);
+  1716→  letter-spacing: 0.2em;
+  1717→  text-transform: uppercase;
+  1718→  color: var(--color-primary-gold);
+  1719→  margin-bottom: var(--space-md);
+  1720→  display: flex;
+  1721→  align-items: center;
+  1722→  gap: var(--space-sm);
+  1723→}
+  1724→
+  1725→.contact__info-label svg {
+  1726→  width: 14px;
+  1727→  height: 14px;
+  1728→  stroke: var(--color-primary-gold);
+  1729→}
+  1730→
+  1731→.contact__info-value {
+  1732→  font-family: var(--font-display);
+  1733→  font-size: var(--fs-h4);
+  1734→  color: var(--color-text-primary);
+  1735→  line-height: 1.4;
+  1736→}
+  1737→
+  1738→.contact__info-value a {
+  1739→  transition: color var(--transition-fast);
+  1740→}
+  1741→
+  1742→.contact__info-value a:hover {
+  1743→  color: var(--color-primary-gold);
+  1744→}
+  1745→
+  1746→.contact__info-detail {
+  1747→  font-size: var(--fs-body-sm);
+  1748→  color: var(--color-text-secondary);
+  1749→  margin-top: var(--space-sm);
+  1750→  line-height: 1.6;
+  1751→}
+  1752→
+  1753→/* Gallery address highlight */
+  1754→.contact__galeria {
+  1755→  margin-top: var(--space-3xl);
+  1756→  padding: var(--space-2xl);
+  1757→  border: 1px solid var(--color-border);
+  1758→  border-left: 2px solid var(--color-primary-gold);
+  1759→  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  1760→  background: linear-gradient(135deg, var(--color-card-bg), var(--color-bg-elevated));
+  1761→}
+  1762→
+  1763→.contact__galeria-name {
+  1764→  font-family: var(--font-display);
+  1765→  font-size: var(--fs-h3);
+  1766→  color: var(--color-primary-gold);
+  1767→  margin-bottom: var(--space-sm);
+  1768→}
+  1769→
+  1770→.contact__galeria-address {
+  1771→  font-size: var(--fs-body-sm);
+  1772→  color: var(--color-text-secondary);
+  1773→  line-height: 1.6;
+  1774→}
+  1775→
+  1776→
+  1777→/* ==========================================================================
+  1778→   16. FOOTER
+  1779→   ========================================================================== */
+  1780→
+  1781→.footer {
+  1782→  padding: var(--space-3xl) 0 var(--space-xl);
+  1783→  border-top: 1px solid var(--color-border);
+  1784→  position: relative;
+  1785→}
+  1786→
+  1787→.footer__inner {
+  1788→  display: flex;
+  1789→  flex-direction: column;
+  1790→  align-items: center;
+  1791→  gap: var(--space-xl);
+  1792→  text-align: center;
+  1793→}
+  1794→
+  1795→@media (min-width: 768px) {
+  1796→  .footer__inner {
+  1797→    flex-direction: row;
+  1798→    justify-content: space-between;
+  1799→    text-align: left;
+  1800→  }
+  1801→}
+  1802→
+  1803→.footer__brand {
+  1804→  font-family: var(--font-display);
+  1805→  font-size: clamp(1rem, 2vw, 1.3rem);
+  1806→  letter-spacing: 0.15em;
+  1807→  text-transform: uppercase;
+  1808→  color: var(--color-text-primary);
+  1809→}
+  1810→
+  1811→.footer__brand span {
+  1812→  color: var(--color-primary-gold);
+  1813→}
+  1814→
+  1815→.footer__links {
+  1816→  display: flex;
+  1817→  gap: var(--space-xl);
+  1818→  flex-wrap: wrap;
+  1819→  justify-content: center;
+  1820→}
+  1821→
+  1822→@media (min-width: 768px) {
+  1823→  .footer__links {
+  1824→    justify-content: flex-start;
+  1825→  }
+  1826→}
+  1827→
+  1828→.footer__link {
+  1829→  font-family: var(--font-mono);
+  1830→  font-size: var(--fs-mono-xs);
+  1831→  letter-spacing: 0.1em;
+  1832→  text-transform: uppercase;
+  1833→  color: var(--color-text-secondary);
+  1834→  transition: color var(--transition-fast);
+  1835→}
+  1836→
+  1837→.footer__link:hover {
+  1838→  color: var(--color-primary-gold);
+  1839→}
+  1840→
+  1841→.footer__social {
+  1842→  display: flex;
+  1843→  gap: var(--space-md);
+  1844→}
+  1845→
+  1846→.footer__social-link {
+  1847→  width: 36px;
+  1848→  height: 36px;
+  1849→  display: flex;
+  1850→  align-items: center;
+  1851→  justify-content: center;
+  1852→  border: 1px solid var(--color-border);
+  1853→  border-radius: 50%;
+  1854→  color: var(--color-text-secondary);
+  1855→  transition: border-color var(--transition-fast),
+  1856→              color var(--transition-fast),
+  1857→              transform var(--transition-fast);
+  1858→}
+  1859→
+  1860→.footer__social-link:hover {
+  1861→  border-color: var(--color-primary-gold);
+  1862→  color: var(--color-primary-gold);
+  1863→  transform: translateY(-2px);
+  1864→}
+  1865→
+  1866→.footer__social-link svg {
+  1867→  width: 16px;
+  1868→  height: 16px;
+  1869→}
+  1870→
+  1871→.footer__copyright {
+  1872→  font-family: var(--font-mono);
+  1873→  font-size: var(--fs-mono-xs);
+  1874→  color: var(--color-text-tertiary);
+  1875→  letter-spacing: 0.08em;
+  1876→  width: 100%;
+  1877→  text-align: center;
+  1878→  margin-top: var(--space-xl);
+  1879→  padding-top: var(--space-lg);
+  1880→  border-top: 1px solid var(--color-border);
+  1881→}
+  1882→
+  1883→@media (min-width: 768px) {
+  1884→  .footer__copyright {
+  1885→    margin-top: 0;
+  1886→    padding-top: 0;
+  1887→    border-top: none;
+  1888→    width: auto;
+  1889→  }
+  1890→}
+  1891→
+  1892→
+  1893→/* ==========================================================================
+  1894→   17. MODAL (Fullscreen Image Viewer)
+  1895→   ========================================================================== */
+  1896→
+  1897→.modal {
+  1898→  position: fixed;
+  1899→  inset: 0;
+  1900→  z-index: var(--z-modal);
+  1901→  background-color: rgba(5, 5, 5, 0.96);
+  1902→  backdrop-filter: blur(20px);
+  1903→  -webkit-backdrop-filter: blur(20px);
+  1904→  display: flex;
+  1905→  align-items: center;
+  1906→  justify-content: center;
+  1907→  opacity: 0;
+  1908→  visibility: hidden;
+  1909→  transition: opacity 0.4s var(--ease-out-expo),
+  1910→              visibility 0.4s var(--ease-out-expo);
+  1911→}
+  1912→
+  1913→.modal.is-open {
+  1914→  opacity: 1;
+  1915→  visibility: visible;
+  1916→}
+  1917→
+  1918→.modal__close {
+  1919→  position: absolute;
+  1920→  top: var(--space-xl);
+  1921→  right: var(--space-xl);
+  1922→  width: 44px;
+  1923→  height: 44px;
+  1924→  display: flex;
+  1925→  align-items: center;
+  1926→  justify-content: center;
+  1927→  color: var(--color-text-secondary);
+  1928→  transition: color var(--transition-fast),
+  1929→              transform var(--transition-fast);
+  1930→  z-index: 2;
+  1931→}
+  1932→
+  1933→.modal__close:hover {
+  1934→  color: var(--color-primary-gold);
+  1935→  transform: rotate(90deg);
+  1936→}
+  1937→
+  1938→.modal__close svg {
+  1939→  width: 24px;
+  1940→  height: 24px;
+  1941→}
+  1942→
+  1943→.modal__image-container {
+  1944→  position: relative;
+  1945→  max-width: 90vw;
+  1946→  max-height: 85vh;
+  1947→  display: flex;
+  1948→  align-items: center;
+  1949→  justify-content: center;
+  1950→}
+  1951→
+  1952→.modal__image-container img {
+  1953→  max-width: 100%;
+  1954→  max-height: 85vh;
+  1955→  object-fit: contain;
+  1956→  border-radius: var(--radius-md);
+  1957→  transform: scale(0.92);
+  1958→  opacity: 0;
+  1959→  transition: transform 0.5s var(--ease-out-expo),
+  1960→              opacity 0.4s var(--ease-out-quart);
+  1961→}
+  1962→
+  1963→.modal.is-open .modal__image-container img {
+  1964→  transform: scale(1);
+  1965→  opacity: 1;
+  1966→}
+  1967→
+  1968→.modal__info {
+  1969→  position: absolute;
+  1970→  bottom: var(--space-xl);
+  1971→  left: 50%;
+  1972→  transform: translateX(-50%);
+  1973→  text-align: center;
+  1974→  display: flex;
+  1975→  flex-direction: column;
+  1976→  gap: var(--space-xs);
+  1977→}
+  1978→
+  1979→.modal__title {
+  1980→  font-family: var(--font-display);
+  1981→  font-size: var(--fs-h4);
+  1982→  color: var(--color-text-primary);
+  1983→}
+  1984→
+  1985→.modal__details {
+  1986→  font-family: var(--font-mono);
+  1987→  font-size: var(--fs-mono-xs);
+  1988→  color: var(--color-text-secondary);
+  1989→  letter-spacing: 0.08em;
+  1990→}
+  1991→
+  1992→/* Modal navigation arrows */
+  1993→.modal__nav {
+  1994→  position: absolute;
+  1995→  top: 50%;
+  1996→  transform: translateY(-50%);
+  1997→  width: 48px;
+  1998→  height: 48px;
+  1999→  display: flex;
+  2000→  align-items: center;
+
+[showing lines 1-2000 of 2932; use offset=2001 with limit to continue reading]
