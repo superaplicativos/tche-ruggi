@@ -1,230 +1,341 @@
 /* ============================================================
-   TCHE RUGGI - Main JavaScript
+   TCHÉ RUGGI - Main JavaScript (v4 - matches CSS classes)
    ============================================================ */
 
 var WHATSAPP = '5511982109567';
+var currentModalIdx = -1;
 
+/* ── Loader ─────────────────────────────────────────────── */
 function hideLoader() {
   var loader = document.getElementById('loader');
   if (!loader) return;
-  var bar = loader.querySelector('.loader__bar');
-  if (bar) bar.style.width = '100%';
   setTimeout(function() {
     loader.classList.add('is-hidden');
-    document.body.style.overflow = '';
-  }, 600);
+  }, 400);
 }
 
+/* ── Navigation ─────────────────────────────────────────── */
 function initNav() {
   var nav = document.getElementById('nav');
-  var toggle = document.getElementById('nav-toggle');
-  var menu = document.getElementById('nav-menu');
-  if (!nav || !toggle || !menu) return;
-  toggle.addEventListener('click', function() {
-    var open = toggle.getAttribute('aria-expanded') === 'true';
-    toggle.setAttribute('aria-expanded', String(!open));
-    menu.classList.toggle('is-open');
-    toggle.classList.toggle('is-active');
-    document.body.style.overflow = open ? '' : 'hidden';
+  var hamburger = document.getElementById('nav-hamburger');
+  var mobileMenu = document.getElementById('mobile-menu');
+  if (!nav || !hamburger || !mobileMenu) return;
+
+  hamburger.addEventListener('click', function() {
+    var isOpen = mobileMenu.classList.contains('is-open');
+    if (isOpen) {
+      mobileMenu.classList.remove('is-open');
+      hamburger.classList.remove('is-active');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    } else {
+      mobileMenu.classList.add('is-open');
+      hamburger.classList.add('is-active');
+      hamburger.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
   });
-  menu.querySelectorAll('a').forEach(function(a) {
-    a.addEventListener('click', function() {
-      toggle.setAttribute('aria-expanded', 'false');
-      menu.classList.remove('is-open');
-      toggle.classList.remove('is-active');
+
+  // Close mobile menu on link click
+  var mobileLinks = mobileMenu.querySelectorAll('.nav__mobile-link');
+  for (var i = 0; i < mobileLinks.length; i++) {
+    mobileLinks[i].addEventListener('click', function() {
+      mobileMenu.classList.remove('is-open');
+      hamburger.classList.remove('is-active');
+      hamburger.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
     });
-  });
+  }
+
+  // Scroll state
   window.addEventListener('scroll', function() {
-    nav.classList.toggle('is-scrolled', window.scrollY > 80);
+    if (window.scrollY > 80) {
+      nav.classList.add('is-scrolled');
+    } else {
+      nav.classList.remove('is-scrolled');
+    }
   }, { passive: true });
 }
 
-function initSmoothScroll() {
-  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
-    a.addEventListener('click', function(e) {
-      e.preventDefault();
-      var target = document.querySelector(a.getAttribute('href'));
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
+/* ── Active Nav Highlight ───────────────────────────────── */
+function initActiveNav() {
+  var sections = document.querySelectorAll('section[id]');
+  var links = document.querySelectorAll('.nav__link');
+  if (!sections.length || !links.length) return;
+  var obs = new IntersectionObserver(function(entries) {
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].isIntersecting) {
+        for (var j = 0; j < links.length; j++) {
+          links[j].classList.remove('is-active');
+        }
+        var activeLink = document.querySelector('.nav__link[href="#' + entries[i].target.id + '"]');
+        if (activeLink) activeLink.classList.add('is-active');
+      }
+    }
+  }, { threshold: 0.3 });
+  for (var k = 0; k < sections.length; k++) {
+    obs.observe(sections[k]);
+  }
 }
 
+/* ── Smooth Scroll ──────────────────────────────────────── */
+function initSmoothScroll() {
+  var links = document.querySelectorAll('a[href^="#"]');
+  for (var i = 0; i < links.length; i++) {
+    links[i].addEventListener('click', function(e) {
+      e.preventDefault();
+      var targetId = this.getAttribute('href');
+      var target = document.querySelector(targetId);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
+}
+
+/* ── Scroll Progress ────────────────────────────────────── */
 function initScrollProgress() {
   var bar = document.getElementById('scroll-progress');
   if (!bar) return;
   window.addEventListener('scroll', function() {
     var h = document.documentElement.scrollHeight - window.innerHeight;
-    bar.style.width = (window.scrollY / h * 100) + '%';
+    if (h > 0) {
+      bar.style.width = (window.scrollY / h * 100) + '%';
+    }
   }, { passive: true });
 }
 
+/* ── Back to Top ────────────────────────────────────────── */
 function initBackToTop() {
   var btn = document.getElementById('back-to-top');
   if (!btn) return;
   window.addEventListener('scroll', function() {
-    btn.classList.toggle('is-visible', window.scrollY > 600);
+    if (window.scrollY > 600) {
+      btn.classList.add('is-visible');
+    } else {
+      btn.classList.remove('is-visible');
+    }
   }, { passive: true });
-  btn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  btn.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 }
 
+/* ── Reveal on Scroll ───────────────────────────────────── */
 function initReveal() {
-  var els = document.querySelectorAll('.reveal:not(.is-visible)');
+  var els = document.querySelectorAll('.reveal:not(.is-visible), .reveal-left:not(.is-visible), .reveal-right:not(.is-visible), .reveal-scale:not(.is-visible), .reveal-fade:not(.is-visible), .reveal-stagger:not(.is-visible)');
   if (!els.length) return;
   var obs = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) {
-      if (e.isIntersecting) {
-        e.target.classList.add('is-visible');
-        obs.unobserve(e.target);
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].isIntersecting) {
+        entries[i].target.classList.add('is-visible');
+        obs.unobserve(entries[i].target);
       }
-    });
+    }
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-  els.forEach(function(el) { obs.observe(el); });
+  for (var j = 0; j < els.length; j++) {
+    obs.observe(els[j]);
+  }
 }
 
-function initCursor() {
-  if (!window.matchMedia('(hover: hover)').matches) return;
-  var dot = document.getElementById('cursor');
-  var ring = document.getElementById('cursor-dot');
-  if (!dot || !ring) return;
-  var mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', function(e) { mx = e.clientX; my = e.clientY; });
-  (function loop() {
-    rx += (mx - rx) * 0.15;
-    ry += (my - ry) * 0.15;
-    dot.style.transform = 'translate(' + mx + 'px,' + my + 'px)';
-    ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px)';
-    requestAnimationFrame(loop);
-  })();
+/* ── Footer Year ────────────────────────────────────────── */
+function setYear() {
+  var el = document.getElementById('footer-year');
+  if (el) el.textContent = new Date().getFullYear();
 }
 
-function initActiveNav() {
-  var sections = document.querySelectorAll('section[id]');
-  var links = document.querySelectorAll('.nav__menu a');
-  if (!sections.length || !links.length) return;
-  var obs = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) {
-      if (e.isIntersecting) {
-        links.forEach(function(l) { l.classList.remove('is-active'); });
-        var link = document.querySelector('.nav__menu a[href="#' + e.target.id + '"]');
-        if (link) link.classList.add('is-active');
-      }
-    });
-  }, { threshold: 0.3 });
-  sections.forEach(function(s) { obs.observe(s); });
+/* ── WhatsApp Link Helper ───────────────────────────────── */
+function waLink(text) {
+  return 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(text);
 }
 
+/* ── Render Catalogo ────────────────────────────────────── */
 function renderCatalogo() {
   var grid = document.getElementById('catalogo-grid');
   if (!grid || !window.ARTWORKS) return;
+
   function render(filter) {
-    var works = filter === 'all' ? window.ARTWORKS : window.ARTWORKS.filter(function(a) { return a.series === filter; });
+    var works = (filter === 'all') ? window.ARTWORKS : window.ARTWORKS.filter(function(a) { return a.series === filter; });
     grid.innerHTML = '';
-    works.forEach(function(w, i) {
+    for (var i = 0; i < works.length; i++) {
+      var w = works[i];
       var card = document.createElement('div');
-      card.className = 'artwork-card reveal' + (w.sold ? ' is-sold' : '');
-      card.style.animationDelay = (i * 0.05) + 's';
-      var badges = '';
-      if (w.sold) badges += '<span class="artwork-card__badge artwork-card__badge--sold">VENDIDO</span>';
-      else if (w.priceStr) badges += '<span class="artwork-card__badge artwork-card__badge--price">' + w.priceStr + '</span>';
-      if (w.edition) badges += '<span class="artwork-card__badge artwork-card__badge--edition">' + w.edition + '</span>';
-      var btn = '';
-      if (!w.sold && w.priceStr) {
-        btn = '<a href="https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent('Ola! Tenho interesse na obra: ' + w.titlePt + ' - ' + w.priceStr) + '" target="_blank" rel="noopener" class="btn btn--whatsapp btn--sm">Comprar via WhatsApp</a>';
-      }
-      card.innerHTML = '<div class="artwork-card__image-wrap"><img src="images/' + w.img + '" alt="' + w.titlePt + '" loading="lazy" />' + badges + '</div><div class="artwork-card__info"><h3 class="artwork-card__title">' + w.titlePt + '</h3><p class="artwork-card__meta">' + w.year + ' &middot; ' + w.category.toUpperCase() + '</p><p class="artwork-card__detail">' + w.technique + '<br/>' + w.dimensions + '</p></div>' + btn;
-      card.addEventListener('click', function(e) { if (e.target.closest('.btn')) return; openModal(w); });
+      card.className = 'artwork-card' + (w.sold ? ' artwork-card--sold' : '');
+
+      var seriesTag = '<span class="artwork-card__series">' + (window.SERIES_INFO[w.series] ? window.SERIES_INFO[w.series].title : w.series) + '</span>';
+      var priceBadge = w.sold
+        ? '<span class="artwork-card__badge artwork-card__badge--sold">Vendido</span>'
+        : (w.priceStr ? '<span class="artwork-card__badge artwork-card__badge--available">' + w.priceStr + '</span>' : '');
+
+      card.innerHTML =
+        '<div class="artwork-card__image-wrap">' +
+          '<img src="images/' + w.img + '" alt="' + w.titlePt + '" loading="lazy" />' +
+          '<div class="artwork-card__image-overlay"></div>' +
+          seriesTag +
+          priceBadge +
+        '</div>' +
+        '<div class="artwork-card__info">' +
+          '<h3 class="artwork-card__title">' + w.titlePt + '</h3>' +
+          '<span class="artwork-card__year">' + w.year + '</span>' +
+          '<div class="artwork-card__details">' + w.technique + '<br>' + w.dimensions + '</div>' +
+        '</div>';
+
+      (function(artwork) {
+        card.addEventListener('click', function() { openModal(artwork); });
+      })(w);
+
       grid.appendChild(card);
-    });
+    }
     initReveal();
   }
-  document.querySelectorAll('[data-catalogo-filter]').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      document.querySelectorAll('[data-catalogo-filter]').forEach(function(b) { b.classList.remove('is-active'); });
-      btn.classList.add('is-active');
-      render(btn.dataset.catalogoFilter);
+
+  var filters = document.querySelectorAll('[data-catalogo-filter]');
+  for (var i = 0; i < filters.length; i++) {
+    filters[i].addEventListener('click', function() {
+      for (var j = 0; j < filters.length; j++) filters[j].classList.remove('is-active');
+      this.classList.add('is-active');
+      render(this.getAttribute('data-catalogo-filter'));
     });
-  });
+  }
   render('all');
 }
 
+/* ── Render Loja ────────────────────────────────────────── */
 function renderLoja() {
   var grid = document.getElementById('loja-grid');
+  var countEl = document.getElementById('loja-count');
   if (!grid || !window.ARTWORKS) return;
-  function render(cat, showSold) {
-    var works = window.ARTWORKS.filter(function(a) { return !a.sold; });
+
+  function render(cat) {
+    var works = window.ARTWORKS.filter(function(a) { return a.price > 0; });
     if (cat !== 'all') works = works.filter(function(a) { return a.category === cat; });
-    if (showSold) {
-      var soldWorks = window.ARTWORKS.filter(function(a) { return a.sold && (cat === 'all' || a.category === cat); });
-      works = works.concat(soldWorks);
-    }
-    works = works.filter(function(a) { return a.price > 0; });
+
+    if (countEl) countEl.textContent = works.length + ' obras disponíveis';
     grid.innerHTML = '';
-    var countEl = document.getElementById('loja-count');
-    if (countEl) countEl.textContent = works.length + ' obras';
-    works.forEach(function(w, i) {
+
+    for (var i = 0; i < works.length; i++) {
+      var w = works[i];
       var card = document.createElement('div');
-      card.className = 'artwork-card reveal' + (w.sold ? ' is-sold' : '');
-      var badges = w.sold ? '<span class="artwork-card__badge artwork-card__badge--sold">VENDIDO</span>' : '<span class="artwork-card__badge artwork-card__badge--price">' + w.priceStr + '</span>';
-      var btn = w.sold ? '<span class="btn btn--disabled">Vendido</span>' : '<a href="https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent('Ola! Tenho interesse na obra: ' + w.titlePt + ' - ' + w.priceStr) + '" target="_blank" rel="noopener" class="btn btn--whatsapp">Comprar via WhatsApp</a>';
-      card.innerHTML = '<div class="artwork-card__image-wrap"><img src="images/' + w.img + '" alt="' + w.titlePt + '" loading="lazy" />' + badges + '</div><div class="artwork-card__info"><h3 class="artwork-card__title">' + w.titlePt + '</h3><p class="artwork-card__meta">' + w.technique + '</p><p class="artwork-card__detail">' + w.dimensions + '</p></div>' + btn;
-      card.addEventListener('click', function(e) { if (e.target.closest('.btn')) return; openModal(w); });
+      card.className = 'artwork-card' + (w.sold ? ' artwork-card--sold' : '');
+
+      var priceBadge = w.sold
+        ? '<span class="artwork-card__badge artwork-card__badge--sold">Vendido</span>'
+        : '<span class="artwork-card__badge artwork-card__badge--available">' + w.priceStr + '</span>';
+
+      var waBtn = w.sold
+        ? ''
+        : '<a href="' + waLink('Olá! Tenho interesse na obra: ' + w.titlePt + ' - ' + w.priceStr) + '" target="_blank" rel="noopener" class="artwork-card__whatsapp"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.247-.694.247-1.289.173-1.413-.074-.124-.272-.198-.57-.347Z"/></svg> WhatsApp</a>';
+
+      card.innerHTML =
+        '<div class="artwork-card__image-wrap">' +
+          '<img src="images/' + w.img + '" alt="' + w.titlePt + '" loading="lazy" />' +
+          '<div class="artwork-card__image-overlay"></div>' +
+          priceBadge +
+          waBtn +
+        '</div>' +
+        '<div class="artwork-card__info">' +
+          '<h3 class="artwork-card__title">' + w.titlePt + '</h3>' +
+          (w.sold ? '' : '<div class="artwork-card__price">' + w.priceStr + '</div>') +
+          '<span class="artwork-card__year">' + w.technique + ' · ' + w.dimensions + '</span>' +
+          '<div class="artwork-card__details">' + w.year + '</div>' +
+        '</div>';
+
+      (function(artwork) {
+        card.querySelector('.artwork-card__image-wrap').addEventListener('click', function(e) {
+          if (e.target.closest('.artwork-card__whatsapp')) return;
+          openModal(artwork);
+        });
+      })(w);
+
       grid.appendChild(card);
-    });
+    }
     initReveal();
   }
-  document.querySelectorAll('[data-loja-filter]').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      document.querySelectorAll('[data-loja-filter]').forEach(function(b) { b.classList.remove('is-active'); });
-      btn.classList.add('is-active');
-      render(btn.dataset.lojaFilter, document.getElementById('show-sold') && document.getElementById('show-sold').checked);
-    });
-  });
-  var showSoldToggle = document.getElementById('show-sold');
-  if (showSoldToggle) {
-    showSoldToggle.addEventListener('change', function() {
-      var activeFilter = document.querySelector('[data-loja-filter].is-active');
-      render(activeFilter ? activeFilter.dataset.lojaFilter : 'all', showSoldToggle.checked);
+
+  var filters = document.querySelectorAll('[data-loja-filter]');
+  for (var i = 0; i < filters.length; i++) {
+    filters[i].addEventListener('click', function() {
+      for (var j = 0; j < filters.length; j++) filters[j].classList.remove('is-active');
+      this.classList.add('is-active');
+      render(this.getAttribute('data-loja-filter'));
     });
   }
-  render('all', false);
+  render('all');
 }
 
+/* ── Render Camisetas ───────────────────────────────────── */
 function renderCamisetas() {
   var grid = document.getElementById('camisetas-grid');
   if (!grid || !window.TSHIRTS) return;
-  window.TSHIRTS.forEach(function(ts, i) {
+
+  for (var i = 0; i < window.TSHIRTS.length; i++) {
+    var ts = window.TSHIRTS[i];
     var card = document.createElement('div');
-    card.className = 'tshirt-card reveal';
-    card.style.animationDelay = (i * 0.08) + 's';
-    card.innerHTML = '<div class="tshirt-card__image-wrap"><img src="images/' + ts.img + '" alt="Camiseta ' + ts.name + '" loading="lazy" /><div class="tshirt-card__overlay"><span class="tshirt-card__tag">CAMISETA EXCLUSIVA</span></div></div><div class="tshirt-card__info"><h3 class="tshirt-card__name">' + ts.name + '</h3><p class="tshirt-card__price">' + ts.price + '</p><p class="tshirt-card__sizes">Tamanhos: P &middot; M &middot; G &middot; GG</p><p class="tshirt-card__colors">Cores: Preto &middot; Branco &middot; Cinza</p></div><a href="https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent('Ola! Quero comprar a camiseta: ' + ts.name + ' - ' + ts.price + '\nTamanho: \nCor: ') + '" target="_blank" rel="noopener" class="btn btn--whatsapp">Comprar via WhatsApp</a>';
+    card.className = 'camiseta-card';
+    card.innerHTML =
+      '<div class="camiseta-card__image-wrap">' +
+        '<img src="images/' + ts.img + '" alt="Camiseta ' + ts.name + '" loading="lazy" />' +
+      '</div>' +
+      '<div class="camiseta-card__info">' +
+        '<h3 class="camiseta-card__name">' + ts.name + '</h3>' +
+        '<div class="camiseta-card__price-row">' +
+          '<span class="camiseta-card__price">' + ts.price + '</span>' +
+          '<span class="camiseta-card__sizes">P · M · G · GG</span>' +
+        '</div>' +
+      '</div>' +
+      '<a href="' + waLink('Olá! Quero comprar a camiseta: ' + ts.name + ' - ' + ts.price + '\nTamanho: \nCor: ') + '" target="_blank" rel="noopener" class="camiseta-card__buy-btn">' +
+        '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.247-.694.247-1.289.173-1.413-.074-.124-.272-.198-.57-.347Z"/></svg>' +
+        'Comprar via WhatsApp' +
+      '</a>';
     grid.appendChild(card);
-  });
-  initReveal();
+  }
 }
 
+/* ── Render Exposicoes ──────────────────────────────────── */
 function renderExhibitions() {
   var timeline = document.getElementById('exhibitions-timeline');
   if (!timeline || !window.EXHIBITIONS) return;
-  window.EXHIBITIONS.forEach(function(ex) {
+
+  for (var i = 0; i < window.EXHIBITIONS.length; i++) {
+    var ex = window.EXHIBITIONS[i];
     var item = document.createElement('div');
-    item.className = 'timeline__item reveal';
-    item.innerHTML = '<div class="timeline__year">' + ex.year + '</div><div class="timeline__content"><h3>' + ex.title + '</h3><p>' + ex.venue + '</p><span class="timeline__type">' + (ex.type === 'individual' ? 'Individual' : 'Coletiva') + '</span></div>';
+    item.className = 'expo-item reveal';
+    item.innerHTML =
+      '<div class="expo-item__dot"></div>' +
+      '<div class="expo-item__connector"></div>' +
+      '<div class="expo-item__year">' + ex.year + '</div>' +
+      '<div class="expo-item__content">' +
+        '<h3 class="expo-item__title">' + ex.title + '</h3>' +
+        '<p class="expo-item__venue">' + ex.venue + '</p>' +
+        '<span class="tag" style="margin-top:var(--space-xs);display:inline-flex">' + (ex.type === 'individual' ? 'Individual' : 'Coletiva') + '</span>' +
+      '</div>';
     timeline.appendChild(item);
-  });
-  initReveal();
+  }
 }
 
-var currentModalIdx = -1;
+/* ── Modal ──────────────────────────────────────────────── */
 function openModal(artwork) {
   var modal = document.getElementById('artwork-modal');
-  var body = document.getElementById('modal-body');
-  if (!modal || !body) return;
+  var imgContainer = document.getElementById('modal-image-container');
+  var titleEl = document.getElementById('modal-title');
+  var detailsEl = document.getElementById('modal-details');
+  if (!modal || !imgContainer) return;
+
   var allWorks = window.ARTWORKS || [];
-  currentModalIdx = allWorks.findIndex(function(a) { return a.id === artwork.id; });
-  var priceHtml = artwork.priceStr ? '<p class="modal__price">' + artwork.priceStr + '</p>' : '';
-  var buyHtml = artwork.sold ? '<p class="modal__sold">VENDIDO</p>' : '<a href="https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent('Ola! Tenho interesse na obra: ' + artwork.titlePt + ' - ' + (artwork.priceStr || '')) + '" target="_blank" class="btn btn--whatsapp">Comprar via WhatsApp</a>';
-  body.innerHTML = '<img src="images/' + artwork.img + '" alt="' + artwork.titlePt + '" /><div class="modal__details"><h2>' + artwork.titlePt + '</h2><p class="modal__technique">' + artwork.technique + '</p><p class="modal__dimensions">' + artwork.dimensions + '</p><p class="modal__year">' + artwork.year + '</p>' + priceHtml + buyHtml + '</div>';
+  currentModalIdx = -1;
+  for (var i = 0; i < allWorks.length; i++) {
+    if (allWorks[i].id === artwork.id) { currentModalIdx = i; break; }
+  }
+
+  imgContainer.innerHTML = '<img src="images/' + artwork.img + '" alt="' + artwork.titlePt + '" />';
+  if (titleEl) titleEl.textContent = artwork.titlePt;
+  if (detailsEl) {
+    var detailParts = [artwork.technique, artwork.dimensions, artwork.year];
+    if (artwork.priceStr) detailParts.push(artwork.priceStr);
+    if (artwork.sold) detailParts.push('VENDIDO');
+    detailsEl.textContent = detailParts.join(' · ');
+  }
+
   modal.setAttribute('aria-hidden', 'false');
   modal.classList.add('is-open');
   document.body.style.overflow = 'hidden';
@@ -239,42 +350,55 @@ function closeModal() {
 }
 
 function initModal() {
-  document.querySelectorAll('[data-close-modal]').forEach(function(el) {
-    el.addEventListener('click', closeModal);
+  var closeBtn = document.getElementById('modal-close');
+  var prevBtn = document.getElementById('modal-prev');
+  var nextBtn = document.getElementById('modal-next');
+  var modal = document.getElementById('artwork-modal');
+
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) closeModal();
+    });
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', function() {
+    var works = window.ARTWORKS || [];
+    if (currentModalIdx > 0) openModal(works[currentModalIdx - 1]);
   });
+  if (nextBtn) nextBtn.addEventListener('click', function() {
+    var works = window.ARTWORKS || [];
+    if (currentModalIdx < works.length - 1) openModal(works[currentModalIdx + 1]);
+  });
+
   document.addEventListener('keydown', function(e) {
+    if (!modal || !modal.classList.contains('is-open')) return;
     if (e.key === 'Escape') closeModal();
-    if (!document.getElementById('artwork-modal') || !document.getElementById('artwork-modal').classList.contains('is-open')) return;
     var works = window.ARTWORKS || [];
     if (e.key === 'ArrowRight' && currentModalIdx < works.length - 1) openModal(works[currentModalIdx + 1]);
     if (e.key === 'ArrowLeft' && currentModalIdx > 0) openModal(works[currentModalIdx - 1]);
   });
 }
 
-function setYear() {
-  var el = document.getElementById('footer-year');
-  if (el) el.textContent = new Date().getFullYear();
-}
-
+/* ── Init ───────────────────────────────────────────────── */
 function init() {
   hideLoader();
   initNav();
+  initActiveNav();
   initSmoothScroll();
   initScrollProgress();
   initBackToTop();
-  initCursor();
-  initActiveNav();
   renderCatalogo();
   renderLoja();
   renderCamisetas();
   renderExhibitions();
   initModal();
   setYear();
-  if (window.initThreeScene) window.initThreeScene();
   initReveal();
 }
 
-document.addEventListener('DOMContentLoaded', init);
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-  setTimeout(init, 100);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
 }

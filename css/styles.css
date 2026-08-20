@@ -2929,3 +2929,62 @@ body::before {
 /* ==========================================================================
    END OF STYLES
    ========================================================================== */
+
+
+/* ==========================================================================
+   26. ADDITIONAL STYLES (v4 patch)
+   ========================================================================== */
+
+/* Bio section number positioning */
+.bio__section-num,
+.catalogo > .container > .section-number,
+.loja > .container > .section-number,
+.camisetas > .container > .section-number,
+.exposicoes > .container > .section-number,
+.contact > .container > .section-number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  user-select: none;
+}
+
+.bio,
+.catalogo,
+.loja,
+.camisetas,
+.exposicoes,
+.contact {
+  position: relative;
+}
+
+/* Loja count text */
+.loja__count {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-xs);
+  color: var(--color-text-tertiary);
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-xl);
+}
+
+/* Hero canvas sizing */
+.hero__canvas-bg canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Mobile: artwork card whatsapp always visible for loja */
+@media (max-width: 1023px) {
+  .loja .artwork-card__whatsapp {
+    opacity: 1;
+    transform: translateY(0);
+    position: relative;
+    bottom: auto;
+    right: auto;
+    margin-top: var(--space-md);
+    justify-content: center;
+    width: 100%;
+  }
+}
